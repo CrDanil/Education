@@ -1,14 +1,21 @@
 import java.io.IOException;
 import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args) throws IOException, IllegalArgumentException {
+    public static void main(String[] args) throws IOException {
         System.out.println("Введите числа и операторы через пробелы");
         Scanner scan = new Scanner(System.in);
         String in = scan.nextLine(); // Ввод
-        String result = calc(in);
-        System.out.println(result); // Вывод
+
+        if (spaces(in) == 2) { // Проверяем количество пробелов во входной строке (через метод spaces считаем пробелы
+            String result = calc(in);
+            System.out.println(result); // Вывод
+        } else {    // Бросаем исключение, если количество пробелов больше или меньше 2
+            throw new IOException("Введено неверное количество пробелов. Должно быть 2.");
+        }
     }
     public static String calc(String input) throws IOException, IllegalArgumentException {
+
         String[] arrInp = input.split("\\s+"); // Разбиваем ввод по пробелам и добавляем в массив arrInp
         try { // Обрабатываем код на ошибку ввода (вместо цифры - буква, символ и т.д.)
             // исключение бросит при ошибке Integer.parseInt(arrInp[0] или [2])
@@ -51,5 +58,14 @@ public class Main {
             // Обрабатываем код на ошибку ввода (вместо цифры - буква, символ и т.д.)
             // исключение бросит при ошибке Integer.parseInt(arrInp[0] или [2])
         }
+    }
+    public static int spaces(String input) {
+        int count = 0;
+        for (char c : input.toCharArray()) {  // Проход по каждому символу строки
+            if (c == ' ') {  // Проверка, является ли символ пробелом
+                count++;  // Увеличение счетчика, если символ - пробел
+            }
+        }
+        return count;  // Возврат общего количества пробелов в строке
     }
 }
